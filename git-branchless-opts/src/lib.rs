@@ -371,6 +371,10 @@ pub enum ForgeKind {
     /// branch using the `gh` command-line tool. WARNING: likely buggy!
     Github,
 
+    /// Force-push branches to the remove and create a pull request for each branch using the `gh`
+    /// command-line tool. New implementation.
+    Github2,
+
     /// Submit code reviews to Phabricator using the `arc` command-line tool.
     Phabricator,
 }
