@@ -47,6 +47,7 @@ pub enum OperationType {
     SyncCommits,
     UpdateCommitGraph,
     UpdateCommits,
+    CreatePullRequests,
     WalkCommits,
 }
 
@@ -88,6 +89,7 @@ impl Display for OperationType {
             OperationType::SyncCommits => write!(f, "Syncing commit stacks"),
             OperationType::UpdateCommits => write!(f, "Updating commits"),
             OperationType::UpdateCommitGraph => write!(f, "Updating commit graph"),
+            OperationType::CreatePullRequests => write!(f, "Creating pull requests"),
             OperationType::WalkCommits => write!(f, "Walking commits"),
         }
     }

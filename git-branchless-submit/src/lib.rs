@@ -11,6 +11,7 @@
 
 mod branch_forge;
 pub mod github;
+pub mod github2;
 pub mod phabricator;
 
 use std::collections::{BTreeSet, HashMap};
@@ -53,7 +54,7 @@ lazy_static! {
 }
 
 /// The status of a commit, indicating whether it needs to be updated remotely.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub enum SubmitStatus {
     /// The commit exists locally and there is no intention to push it to the
     /// remote.
@@ -303,6 +304,7 @@ fn submit(
         &references_snapshot,
         &unioned_revset,
         forge_kind,
+        create,
     )?;
     let statuses = try_exit_code!(forge.query_status(commit_set)?);
     debug!(?statuses, "Commit statuses");
@@ -527,6 +529,7 @@ fn select_forge<'a>(
     references_snapshot: &'a RepoReferencesSnapshot,
     revset: &'a Revset,
     forge_kind: Option<ForgeKind>,
+    create: bool,
 ) -> eyre::Result<Box<dyn Forge + 'a>> {
     // Check if explicitly set:
     let forge_kind = match forge_kind {
@@ -590,6 +593,16 @@ fn select_forge<'a>(
             event_log_db,
             client: GithubForge::client(git_run_info.clone()),
         }),
+
+        ForgeKind::Github2 => github2::forge::GitHubForge::new(
+            effects,
+            repo,
+            dag,
+            references_snapshot,
+            event_log_db,
+            git_run_info,
+            create,
+        )?,
 
         ForgeKind::Phabricator => Box::new(PhabricatorForge {
             effects,
