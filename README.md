@@ -1,3 +1,24 @@
+# Personal build of git-branchless
+
+Provided with no warranty for my own use.
+
+Branches:
+- `gpg-support`: support for commit signatures
+  - Requires a local checkout of `git2-ext` at `../git2-ext` which:
+    - updates its `git2` dependency to 0.20.0
+    - updates its `git-fixture` dependency to point at that project's `main` branch on GitHub
+- `gh-forge-improvements`: new GitHub backend for `git submit`
+- `matt-build`: other branches cherry-picked into the same branch for builds
+
+`./matt-build.sh` will rebuild the `matt-build` branch after rebases or updates to the other branches.
+
+To install:
+- clone `gitext-rs/git2-ext` into `../git2-ext` and update dependencies as described above
+- run `cargo +stable install --path git-branchless` from this repository's root (assuming rustup manages your `cargo`)
+- use `git branchless init` in each repository like normal
+
+# Original README
+
 <p align="center"><img width="147" height="147" src="https://user-images.githubusercontent.com/454057/144287756-8570ba1b-b9f1-46de-9236-ca17db246856.png" alt="git-branchless logo" /></p>
 
 <h1 align="center">Branchless workflow for Git</h1>

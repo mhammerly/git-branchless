@@ -1,0 +1,22 @@
+name: matt-build branch update
+
+on:
+  push:
+    branches:
+      - gpg-support
+      - gh-forge-improvements
+
+jobs:
+  rebuild-matt-build-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref:  'matt-build'
+
+      - name: Rebuild branch
+        run: |
+          git config user.email "hammerly.matt@gmail.com"
+          git config user.name "Matt Hammerly"
+          ./matt-build.sh
+          git push -f origin matt-build
